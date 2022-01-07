@@ -6,10 +6,17 @@ import datetime
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import threading
 
 
 def comment(browser):
     browser.get('https://www.instagram.com/')
+    time.sleep(5)
+    username = browser.find_element_by_name("username")
+    username.send_keys('YOUR USERNAME')
+    passw = browser.find_element_by_name("password")
+    passw.send_keys('YOUR PASSWORD')
+    passw.send_keys(Keys.RETURN)
     time.sleep(40)
     for i in range(5):
         browser.get('POST LINK')
@@ -23,7 +30,9 @@ def comment(browser):
         time.sleep(5)
     
     
-    
 if __name__ == '__main__':
-    browser = webdriver.Chrome()
-    comment(browser)
+    browser1 = webdriver.Chrome()
+    browser2 = webdriver.Chrome()
+    threading.Thread(target=comment, args=[browser1]).start()
+    threading.Thread(target=comment, args=[browser2]).start()
+    # comment(browser)
